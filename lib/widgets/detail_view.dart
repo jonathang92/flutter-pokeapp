@@ -11,6 +11,7 @@ class DetailView extends StatelessWidget {
   final String urlImage;
   final String heroTag;
   final String assetType;
+  final String name;
 
   const DetailView({
     @required this.typeMap,
@@ -19,6 +20,7 @@ class DetailView extends StatelessWidget {
     @required this.child,
     @required this.urlImage,
     @required this.heroTag,
+    @required this.name,
     this.assetType,
   });
 
@@ -36,7 +38,7 @@ class DetailView extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             children: [
               _Background(color, color2),
-              _TitleHeader(screenSize, scrollPage),
+              _TitleHeader(screenSize, scrollPage, name),
               _MainContent(cardSize, color, color2, content: child),
               _FloatImage(cardSize, scrollPage, heroTag, urlImage, assetType),
             ],
@@ -65,10 +67,10 @@ class __MainContentState extends State<_MainContent> {
   void initState() {
     super.initState();
     final scrollController =
-        Provider.of<DetailPageModel>(context, listen: false);
-    scrollController.controller.addListener(() {
+        Provider.of<DetailPageModel>(context, listen: false).controller;
+    scrollController.addListener(() {
       Provider.of<DetailPageModel>(context, listen: false).scrollOffset =
-          scrollController.controller.offset;
+          scrollController.offset;
     });
   }
 
@@ -111,9 +113,11 @@ class __MainContentState extends State<_MainContent> {
 class _TitleHeader extends StatelessWidget {
   final Size screenSize;
   final double scrollPage;
+  final String name;
   const _TitleHeader(
     this.screenSize,
     this.scrollPage,
+    this.name,
   );
 
   @override
@@ -141,7 +145,7 @@ class _TitleHeader extends StatelessWidget {
               child: Opacity(
                 opacity: scrollPage * 0.01,
                 child: Text(
-                  'Bulbasaur',
+                  name,
                   style: TextStyle(color: Colors.white, fontSize: 50),
                 ),
               ),

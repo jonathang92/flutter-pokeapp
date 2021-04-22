@@ -33,23 +33,13 @@ class _HomePageView extends StatefulWidget {
 
 class __HomePageViewState extends State<_HomePageView> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final pageViewModel = Provider.of<SliderHomeModel>(context, listen: false);
     final pageView = PageView(
       onPageChanged: (i) => pageViewModel.currentPage = i,
       controller: pageViewModel.controller,
       children: [
-        PokemonList(),
+        PokemonListView(),
         MoveList(),
         ItemList(),
       ],

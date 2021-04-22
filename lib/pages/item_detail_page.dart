@@ -21,6 +21,7 @@ class ItemDetailPage extends StatelessWidget {
       typeMap: typeMap,
       color: color,
       color2: color2,
+      name: 'pokeball',
       child: Container(
         width: double.infinity,
         child: FadeInRight(

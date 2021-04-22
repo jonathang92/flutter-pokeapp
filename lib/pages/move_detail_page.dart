@@ -21,6 +21,7 @@ class MoveDetailPage extends StatelessWidget {
       typeMap: typeMap,
       color: color,
       color2: color2,
+      name: 'nombre',
       assetType: 'flying',
       child: Container(
         width: double.infinity,

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pokeapp/models/pokemon_list_model.dart';
+import 'package:pokeapp/models/pokemon_model.dart';
 import 'package:pokeapp/widgets/TypePokemon.dart';
 
-void showStregths(BuildContext context) {
+void showStregths(BuildContext context, PokemonList pokemon) {
   showDialog(
       context: context,
       barrierDismissible: true,
@@ -21,13 +23,21 @@ void showStregths(BuildContext context) {
               height: 400,
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Column(
-                children: [_CustomHeader(), Divider(), _GridElements()],
+                children: [
+                  _CustomHeader(pokemon),
+                  Divider(),
+                  _GridElements(pokemon)
+                ],
               ),
             ));
       });
 }
 
 class _GridElements extends StatelessWidget {
+  final PokemonList pokemon;
+
+  const _GridElements(this.pokemon);
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -58,6 +68,9 @@ class _GridElements extends StatelessWidget {
 }
 
 class _CustomHeader extends StatelessWidget {
+  final PokemonList pokemon;
+
+  const _CustomHeader(this.pokemon);
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -65,7 +78,7 @@ class _CustomHeader extends StatelessWidget {
         Container(
           height: 60,
           child: Image.network(
-            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png',
+            pokemon.data.sprites.other.officialArtwork.frontDefault,
             filterQuality: FilterQuality.high,
             errorBuilder: (context, error, stackTrace) {
               return Center(
@@ -96,12 +109,12 @@ class _CustomHeader extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Bulbasaur',
+                pokemon.name,
                 textAlign: TextAlign.left,
                 style: TextStyle(fontSize: 20),
               ),
               Text(
-                '#001',
+                '#${pokemon.data.id.toString().padLeft(3, '0')}',
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontSize: 18,
@@ -112,12 +125,12 @@ class _CustomHeader extends StatelessWidget {
           ),
         ),
         Row(
-          children: [
-            TypePokemon(type: 'grass'),
-            SizedBox(width: 10),
-            TypePokemon(type: 'poison'),
-          ],
-        ),
+          children: pokemon.data.types
+              .map((e) => Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: TypePokemon(type: e.type.name)))
+              .toList(),
+        )
       ],
     );
   }

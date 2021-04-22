@@ -27,7 +27,7 @@ Map getPokemonType(type) {
       'color2': Color(0xffF3A7E7),
       'asset': 'assets/svg/type-fairy.svg'
     },
-    'fight': {
+    'fighting': {
       'color': Color(0xffCE4265),
       'color2': Color(0xffE74347),
       'asset': 'assets/svg/type-fight.svg'
