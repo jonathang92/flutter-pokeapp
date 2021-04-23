@@ -1,13 +1,15 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:pokeapp/models/item_list_model.dart';
 import 'package:pokeapp/widgets/detail_view.dart';
 import 'package:pokeapp/helpers/helpers.dart';
 
 class ItemDetailPage extends StatelessWidget {
   final String heroTag;
   final String urlImage;
+  final ItemList item;
 
-  const ItemDetailPage({this.heroTag, this.urlImage});
+  const ItemDetailPage({this.heroTag, this.urlImage, this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class ItemDetailPage extends StatelessWidget {
       typeMap: typeMap,
       color: color,
       color2: color2,
-      name: 'pokeball',
+      name: item.name,
       child: Container(
         width: double.infinity,
         child: FadeInRight(
@@ -30,11 +32,11 @@ class ItemDetailPage extends StatelessWidget {
             children: [
               SizedBox(height: 50),
               FadeInRight(
-                child: Text('Master Ball',
+                child: Text(item.name,
                     style: TextStyle(fontSize: 50, color: Color(0xff4F4F4F))),
               ),
-              _Price(),
-              _Description(),
+              _Price(price: item.data.cost.toString()),
+              _Description(text: item.data.effectEntries[0].effect),
               SizedBox(height: 50)
             ],
           ),
@@ -45,9 +47,10 @@ class ItemDetailPage extends StatelessWidget {
 }
 
 class _Description extends StatelessWidget {
+  final String text;
   const _Description({
-    Key key,
-  }) : super(key: key);
+    @required this.text,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -55,18 +58,15 @@ class _Description extends StatelessWidget {
       margin: EdgeInsets.only(top: 20),
       padding: EdgeInsets.symmetric(horizontal: 20),
       width: double.infinity,
-      child: Text(
-          "Used in battle\n:   Catches a wild Pokémon without fail.\n\n    If used in a trainer battle, nothing happens and the ball is lost.",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 20)),
+      child: Text(text.replaceAll('\n', '').replaceAll('\f', ''),
+          textAlign: TextAlign.center, style: TextStyle(fontSize: 20)),
     );
   }
 }
 
 class _Price extends StatelessWidget {
-  const _Price({
-    Key key,
-  }) : super(key: key);
+  final String price;
+  const _Price({this.price});
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +77,7 @@ class _Price extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            '200',
+            price,
             textAlign: TextAlign.left,
             style: TextStyle(
               fontSize: 25,
