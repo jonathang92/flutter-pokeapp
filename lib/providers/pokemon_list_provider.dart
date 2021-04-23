@@ -28,7 +28,7 @@ class PokemonListProvider {
     final uri = Uri.parse(url);
     final resp = await http.get(uri);
     final decodedData = json.decode(resp.body);
-    final detail = pokemonFromJson(json.encode(decodedData));
+    final detail = pokemonFromJsonMap(decodedData);
     return detail;
   }
 }

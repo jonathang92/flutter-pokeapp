@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pokeapp/models/pokemon_list_model.dart';
-import 'package:pokeapp/models/pokemon_model.dart';
+// import 'package:pokeapp/models/pokemon_model.dart';
 import 'package:pokeapp/widgets/TypePokemon.dart';
 
 void showStregths(BuildContext context, PokemonList pokemon) {

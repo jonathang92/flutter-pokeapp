@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:pokeapp/models/move_list_model.dart';
 import 'package:pokeapp/widgets/detail_description.dart';
 import 'package:pokeapp/widgets/detail_view.dart';
 import 'package:pokeapp/helpers/helpers.dart';
@@ -7,12 +8,13 @@ import 'package:pokeapp/widgets/fake_button_type.dart';
 
 class MoveDetailPage extends StatelessWidget {
   final String heroTag;
+  final MoveList move;
 
-  const MoveDetailPage({this.heroTag});
+  const MoveDetailPage({this.heroTag, this.move});
 
   @override
   Widget build(BuildContext context) {
-    final typeMap = getPokemonType('flying');
+    final typeMap = getPokemonType(move.data.type.name);
     final Color color = typeMap['color'];
     final Color color2 = typeMap['color2'];
     return DetailView(
@@ -21,8 +23,8 @@ class MoveDetailPage extends StatelessWidget {
       typeMap: typeMap,
       color: color,
       color2: color2,
-      name: 'nombre',
-      assetType: 'flying',
+      name: move.name,
+      assetType: move.data.type.name,
       child: Container(
         width: double.infinity,
         child: FadeInRight(
@@ -31,13 +33,12 @@ class MoveDetailPage extends StatelessWidget {
             children: [
               SizedBox(height: 50),
               FadeInRight(
-                child: Text('wing-attack',
+                child: Text(move.name,
                     style: TextStyle(fontSize: 50, color: Color(0xff4F4F4F))),
               ),
-              FakeButtonType('flying'),
-              DetailDescription(
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),
-              _Details(color: color),
+              FakeButtonType(move.data.type.name),
+              DetailDescription(move.data.effectEntries[0].effect),
+              _Details(color: color, move: move),
               SizedBox(height: 50)
             ],
           ),
@@ -49,8 +50,9 @@ class MoveDetailPage extends StatelessWidget {
 
 class _Details extends StatelessWidget {
   final Color color;
+  final MoveList move;
 
-  const _Details({this.color});
+  const _Details({this.color, this.move});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -58,11 +60,17 @@ class _Details extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _Detail(color: color, title: 'Base Power', content: '40'),
+          _Detail(
+              color: color,
+              title: 'Base Power',
+              content: move.data.power.toString()),
           Divider(),
-          _Detail(color: color, title: 'Acurracy', content: '100%'),
+          _Detail(
+              color: color,
+              title: 'Acurracy',
+              content: '${move.data.accuracy}%'),
           Divider(),
-          _Detail(color: color, title: 'PP', content: '30'),
+          _Detail(color: color, title: 'PP', content: move.data.pp.toString()),
         ],
       ),
     );

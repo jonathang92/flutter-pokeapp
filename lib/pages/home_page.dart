@@ -40,8 +40,8 @@ class __HomePageViewState extends State<_HomePageView> {
       controller: pageViewModel.controller,
       children: [
         PokemonListView(),
-        MoveList(),
-        ItemList(),
+        MoveListView(),
+        ItemListView(),
       ],
     );
     return pageView;

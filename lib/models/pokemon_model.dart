@@ -1,10 +1,11 @@
-// To parse this JSON data, do
-//
-// final pokemon = pokemonFromJson(jsonString);
-
 import 'dart:convert';
 
-Pokemon pokemonFromJson(String str) => Pokemon.fromJson(json.decode(str));
+import 'package:pokeapp/models/move_list_model.dart';
+import 'package:pokeapp/models/move_model.dart';
+
+Pokemon pokemonFromJsonMap(Map<dynamic, dynamic> jsonList) =>
+    Pokemon.fromJson(jsonList);
+// Pokemon pokemonFromJson(String str) => Pokemon.fromJson(json.decode(str));
 
 String pokemonToJson(Pokemon data) => json.encode(data.toJson());
 
@@ -21,7 +22,7 @@ class Pokemon {
 
   List<AbilityElement> abilities;
   int id;
-  List<Move> moves;
+  List<MoveList> moves;
   String name;
   Sprites sprites;
   List<StatElement> stats;
@@ -31,7 +32,8 @@ class Pokemon {
         abilities: List<AbilityElement>.from(
             json["abilities"].map((x) => AbilityElement.fromJson(x))),
         id: json["id"],
-        moves: List<Move>.from(json["moves"].map((x) => Move.fromJson(x))),
+        moves: List<MoveList>.from(
+            json["moves"].map((x) => MoveList.fromJson(x['move']))),
         name: json["name"],
         sprites: Sprites.fromJson(json["sprites"]),
         stats: List<StatElement>.from(
@@ -90,17 +92,16 @@ class AbilityClass {
 }
 
 class MoveClass {
-  MoveClass({
-    this.name,
-    this.url,
-  });
+  MoveClass({this.name, this.url, this.data});
 
   String name;
   String url;
+  MoveModel data;
 
   factory MoveClass.fromJson(Map<String, dynamic> json) => MoveClass(
         name: json["name"],
         url: json["url"],
+        data: null,
       );
 
   Map<String, dynamic> toJson() => {

@@ -4,8 +4,11 @@
 
 import 'dart:convert';
 
-Evolutions evolutionsFromJson(String str) =>
-    Evolutions.fromJson(json.decode(str));
+Evolutions evolutionsFromJsonMap(Map<dynamic, dynamic> jsonList) =>
+    Evolutions.fromJson(jsonList);
+
+// Evolutions evolutionsFromJson(String str) =>
+//     Evolutions.fromJson(json.decode(str));
 
 String evolutionsToJson(Evolutions data) => json.encode(data.toJson());
 

@@ -2,9 +2,11 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pokeapp/models/evolution_model.dart';
+import 'package:pokeapp/models/move_list_model.dart';
 import 'package:pokeapp/models/pokemon_list_model.dart';
 import 'package:pokeapp/models/specie_model.dart';
 import 'package:pokeapp/providers/ability_provider.dart';
+import 'package:pokeapp/providers/move_list_provider.dart';
 import 'package:pokeapp/providers/specie_provider.dart';
 import 'package:pokeapp/widgets/detail_description.dart';
 import 'package:pokeapp/widgets/detail_view.dart';
@@ -94,7 +96,9 @@ class _PokemonDetailPageState extends State<PokemonDetailPage> {
                           evolution: specieData.evolutionChain.data),
                     )
                   ],
-                  if (activePage == 3) ...[_Moves()],
+                  if (activePage == 3) ...[
+                    _Moves(widget.pokemon.data.moves, color)
+                  ],
                   SizedBox(height: 50)
                 ],
               ),
@@ -106,13 +110,59 @@ class _PokemonDetailPageState extends State<PokemonDetailPage> {
   }
 }
 
-class _Moves extends StatelessWidget {
+class _Moves extends StatefulWidget {
+  final List<MoveList> moves;
+  final Color color;
+
+  const _Moves(this.moves, this.color);
+
+  @override
+  __MovesState createState() => __MovesState();
+}
+
+class __MovesState extends State<_Moves> {
+  final moveListProvider = MoveListProvider();
+  bool loaded = false;
+
+  @override
+  void initState() {
+    _getModelDetail();
+    super.initState();
+  }
+
+  Future _getModelDetail() async {
+    await Future.forEach(widget.moves, (MoveList move) async {
+      move.data = await moveListProvider.getMove(move.url);
+    });
+
+    if (mounted)
+      setState(() {
+        loaded = true;
+      });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10),
       margin: EdgeInsets.only(top: 20),
-      child: MoveListFixed(),
+      child: (loaded)
+          ? MoveListFixed(moves: widget.moves)
+          : Container(
+              height: 300,
+              width: double.infinity,
+              child: Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(widget.color),
+                ),
+              ),
+            ),
     );
   }
 }
@@ -155,28 +205,6 @@ class _EvolutionsView extends StatelessWidget {
               ),
             )
             .toList(),
-        // children: [
-        //   _EvolutionStep(
-        //     color: color,
-        //     level: 16,
-        //     preEvolutionUrl:
-        //         'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png',
-        //     evolutionUrl:
-        //         'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png',
-        //     preEvolutionName: 'Bulbasaur',
-        //     evolutionName: 'Ivysaur',
-        //   ),
-        //   _EvolutionStep(
-        //     color: color,
-        //     level: 32,
-        //     preEvolutionUrl:
-        //         'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png',
-        //     evolutionUrl:
-        //         'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/3.png',
-        //     preEvolutionName: 'Ivysaur',
-        //     evolutionName: 'Venusaur',
-        //   ),
-        // ],
       ),
     );
   }
@@ -587,9 +615,6 @@ class _AbilitiesState extends State<_Abilities> {
           ? Column(
               children: [
                 _Title('Abilities', widget.color),
-
-                // TODO: get detail from https://pokeapi.co/api/v2/ability/
-
                 Column(
                     children: widget.pokemon.data.abilities
                         .map((ability) => _Ability(

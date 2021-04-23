@@ -24,7 +24,7 @@ class SpecieProvider {
     final uri = Uri.parse(url);
     final resp = await http.get(uri);
     final decodedData = json.decode(resp.body);
-    final detail = evolutionsFromJson(json.encode(decodedData['chain']));
+    final detail = evolutionsFromJsonMap(decodedData['chain']);
     return detail;
   }
 }

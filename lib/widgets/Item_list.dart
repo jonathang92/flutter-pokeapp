@@ -5,7 +5,7 @@ import 'package:pokeapp/pages/item_detail_page.dart';
 
 import 'home_list_view.dart';
 
-class ItemList extends StatelessWidget {
+class ItemListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return HomeListView(List.generate(20, (index) => _CustomListTile(index)));
