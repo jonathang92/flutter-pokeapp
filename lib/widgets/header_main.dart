@@ -11,7 +11,7 @@ class HeaderMain extends StatelessWidget {
 
 class _TitleAndSearch extends StatelessWidget {
   const _TitleAndSearch({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

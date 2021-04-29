@@ -17,7 +17,7 @@ class PokemonListProvider {
     // print(decodedData["results"]);
     final pokemonList = pokemonListFromJsonList(decodedData["results"]);
     // print(pokemons[0].url);
-    await Future.forEach(pokemonList, (p) async {
+    await Future.forEach(pokemonList, (dynamic p) async {
       p.data = await getPokemon(p.url);
     });
     // print(pokemonList[0].data.name);

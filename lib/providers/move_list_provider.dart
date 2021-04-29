@@ -15,7 +15,7 @@ class MoveListProvider {
 
     final decodedData = json.decode(resp.body);
     final moveList = moveListFromJsonList(decodedData["results"]);
-    await Future.forEach(moveList, (p) async {
+    await Future.forEach(moveList, (dynamic p) async {
       p.data = await getMove(p.url);
     });
     return moveList;

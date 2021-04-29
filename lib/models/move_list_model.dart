@@ -17,9 +17,9 @@ class MoveList {
     this.data,
   });
 
-  String name;
-  String url;
-  MoveModel data;
+  String? name;
+  String? url;
+  MoveModel? data;
 
   factory MoveList.fromJson(Map<String, dynamic> json) => MoveList(
         name: json["name"],

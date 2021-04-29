@@ -77,20 +77,20 @@ class _MoveListViewState extends State<MoveListView> {
           )
         : Center(
             child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.green[200]),
+              valueColor: AlwaysStoppedAnimation<Color?>(Colors.green[200]),
             ),
           );
   }
 }
 
 class MoveListFixed extends StatelessWidget {
-  final List<MoveList> moves;
+  final List<MoveList>? moves;
   const MoveListFixed({this.moves});
   @override
   Widget build(BuildContext context) {
     int c = 0;
     return Column(
-        children: moves
+        children: moves!
             .map((MoveList move) => Column(children: [
                   _CustomListTile(c++, move),
                   Divider(),
@@ -118,14 +118,14 @@ class _CustomListTile extends StatelessWidget {
             SizedBox(width: 15),
             Expanded(
               child: Text(
-                move.name,
+                move.name!,
                 textAlign: TextAlign.left,
                 style: TextStyle(fontSize: 20),
               ),
             ),
             Hero(
                 tag: '$index-${move.name}',
-                child: TypePokemon(type: move.data.type.name)),
+                child: TypePokemon(type: move.data!.type!.name)),
           ],
         ),
       ),

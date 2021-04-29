@@ -16,8 +16,8 @@ import 'package:pokeapp/widgets/move_list.dart';
 import 'package:provider/provider.dart';
 
 class PokemonDetailPage extends StatefulWidget {
-  final int index;
-  final PokemonList pokemon;
+  final int? index;
+  final PokemonList? pokemon;
 
   const PokemonDetailPage({this.pokemon, this.index});
 
@@ -27,7 +27,7 @@ class PokemonDetailPage extends StatefulWidget {
 
 class _PokemonDetailPageState extends State<PokemonDetailPage> {
   final specieProvider = SpecieProvider();
-  Specie specieData;
+  Specie? specieData;
   @override
   void initState() {
     _getSpecie();
@@ -35,7 +35,7 @@ class _PokemonDetailPageState extends State<PokemonDetailPage> {
   }
 
   Future _getSpecie() async {
-    specieData = await specieProvider.getSpecie(widget.pokemon.data.id);
+    specieData = await specieProvider.getSpecie(widget.pokemon!.data!.id);
 
     if (mounted) setState(() {});
   }
@@ -47,16 +47,16 @@ class _PokemonDetailPageState extends State<PokemonDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    final typeMap = getPokemonType(widget.pokemon.data.types[0].type.name);
-    final Color color = typeMap['color'];
-    final Color color2 = typeMap['color2'];
+    final typeMap = getPokemonType(widget.pokemon!.data!.types![0].type!.name);
+    final Color? color = typeMap['color'];
+    final Color? color2 = typeMap['color2'];
     return DetailView(
-      heroTag: '${widget.index}-${widget.pokemon.name}',
-      urlImage: widget.pokemon.data.sprites.other.officialArtwork.frontDefault,
+      heroTag: '${widget.index}-${widget.pokemon!.name}',
+      urlImage: widget.pokemon!.data!.sprites!.other!.officialArtwork!.frontDefault,
       typeMap: typeMap,
       color: color,
       color2: color2,
-      name: widget.pokemon.name,
+      name: widget.pokemon!.name,
       child: ChangeNotifierProvider(
         create: (_) => new PokemonDetailPageModel(),
         child: Container(
@@ -71,11 +71,11 @@ class _PokemonDetailPageState extends State<PokemonDetailPage> {
                 children: [
                   SizedBox(height: 50),
                   FadeInRight(
-                    child: Text(widget.pokemon.name,
+                    child: Text(widget.pokemon!.name!,
                         style:
                             TextStyle(fontSize: 50, color: Color(0xff4F4F4F))),
                   ),
-                  FakeButtonType(widget.pokemon.data.types[0].type.name),
+                  FakeButtonType(widget.pokemon!.data!.types![0].type!.name),
                   _DetailNavigationBar(color: color),
                   if (activePage == 1 && specieData != null) ...[
                     FadeInLeft(
@@ -93,11 +93,11 @@ class _PokemonDetailPageState extends State<PokemonDetailPage> {
                       duration: Duration(milliseconds: 300),
                       child: _EvolutionsView(
                           color: color,
-                          evolution: specieData.evolutionChain.data),
+                          evolution: specieData!.evolutionChain!.data),
                     )
                   ],
                   if (activePage == 3) ...[
-                    _Moves(widget.pokemon.data.moves, color)
+                    _Moves(widget.pokemon!.data!.moves, color)
                   ],
                   SizedBox(height: 50)
                 ],
@@ -111,8 +111,8 @@ class _PokemonDetailPageState extends State<PokemonDetailPage> {
 }
 
 class _Moves extends StatefulWidget {
-  final List<MoveList> moves;
-  final Color color;
+  final List<MoveList>? moves;
+  final Color? color;
 
   const _Moves(this.moves, this.color);
 
@@ -131,7 +131,7 @@ class __MovesState extends State<_Moves> {
   }
 
   Future _getModelDetail() async {
-    await Future.forEach(widget.moves, (MoveList move) async {
+    await Future.forEach(widget.moves!, (MoveList move) async {
       move.data = await moveListProvider.getMove(move.url);
     });
 
@@ -158,7 +158,7 @@ class __MovesState extends State<_Moves> {
               width: double.infinity,
               child: Center(
                 child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(widget.color),
+                  valueColor: AlwaysStoppedAnimation<Color?>(widget.color),
                 ),
               ),
             ),
@@ -167,8 +167,8 @@ class __MovesState extends State<_Moves> {
 }
 
 class _EvolutionsView extends StatelessWidget {
-  final Color color;
-  final Evolutions evolution;
+  final Color? color;
+  final Evolutions? evolution;
 
   const _EvolutionsView({this.color, this.evolution});
 
@@ -177,16 +177,16 @@ class _EvolutionsView extends StatelessWidget {
     final steps = [];
     _getSteps(Evolutions ev) {
       steps.add({
-        'level': ev.evolvesTo[0].evolutionDetails[0].minLevel,
-        'preEvolutionImage': ev.species.image,
-        'postEvolutionImage': ev.evolvesTo[0].species.image,
-        'preEvolutionName': ev.species.name,
-        'postEvolutionName': ev.evolvesTo[0].species.name,
+        'level': ev.evolvesTo![0].evolutionDetails![0].minLevel,
+        'preEvolutionImage': ev.species!.image,
+        'postEvolutionImage': ev.evolvesTo![0].species!.image,
+        'preEvolutionName': ev.species!.name,
+        'postEvolutionName': ev.evolvesTo![0].species!.name,
       });
-      if (ev.evolvesTo[0].evolvesTo.isNotEmpty) _getSteps(ev.evolvesTo[0]);
+      if (ev.evolvesTo![0].evolvesTo!.isNotEmpty) _getSteps(ev.evolvesTo![0]);
     }
 
-    _getSteps(evolution);
+    _getSteps(evolution!);
 
     return Container(
       // padding: EdgeInsets.symmetric(horizontal: 20),
@@ -210,20 +210,20 @@ class _EvolutionsView extends StatelessWidget {
 }
 
 class _EvolutionStep extends StatelessWidget {
-  final Color color;
-  final int level;
-  final String preEvolutionUrl;
-  final String evolutionUrl;
-  final String preEvolutionName;
-  final String evolutionName;
+  final Color? color;
+  final int? level;
+  final String? preEvolutionUrl;
+  final String? evolutionUrl;
+  final String? preEvolutionName;
+  final String? evolutionName;
 
   const _EvolutionStep({
-    @required this.color,
-    @required this.level,
-    @required this.preEvolutionUrl,
-    @required this.evolutionUrl,
-    @required this.preEvolutionName,
-    @required this.evolutionName,
+    required this.color,
+    required this.level,
+    required this.preEvolutionUrl,
+    required this.evolutionUrl,
+    required this.preEvolutionName,
+    required this.evolutionName,
   });
 
   @override
@@ -248,8 +248,8 @@ class _EvolutionStep extends StatelessWidget {
 }
 
 class _EvolutionPokemon extends StatelessWidget {
-  final String evolutionUrl;
-  final String evolutionName;
+  final String? evolutionUrl;
+  final String? evolutionName;
 
   const _EvolutionPokemon(
     this.evolutionUrl,
@@ -263,7 +263,7 @@ class _EvolutionPokemon extends StatelessWidget {
         SizedBox(
           width: 100,
           child: Image.network(
-            evolutionUrl,
+            evolutionUrl!,
             filterQuality: FilterQuality.high,
             errorBuilder: (context, error, stackTrace) {
               return Center(
@@ -273,14 +273,14 @@ class _EvolutionPokemon extends StatelessWidget {
               )); //do something
             },
             loadingBuilder: (BuildContext context, Widget child,
-                ImageChunkEvent loadingProgress) {
+                ImageChunkEvent? loadingProgress) {
               if (loadingProgress == null) return child;
               return Center(
                 child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.grey[300]),
+                  valueColor: AlwaysStoppedAnimation<Color?>(Colors.grey[300]),
                   value: loadingProgress.expectedTotalBytes != null
                       ? loadingProgress.cumulativeBytesLoaded /
-                          loadingProgress.expectedTotalBytes
+                          loadingProgress.expectedTotalBytes!
                       : null,
                 ),
               );
@@ -288,7 +288,7 @@ class _EvolutionPokemon extends StatelessWidget {
           ),
         ),
         Text(
-          evolutionName,
+          evolutionName!,
           style: TextStyle(fontSize: 20),
         ),
       ],
@@ -297,22 +297,22 @@ class _EvolutionPokemon extends StatelessWidget {
 }
 
 class _StatsView extends StatelessWidget {
-  final Color color;
-  final Color color2;
-  final PokemonList pokemon;
-  final Specie especie;
+  final Color? color;
+  final Color? color2;
+  final PokemonList? pokemon;
+  final Specie? especie;
   const _StatsView({
-    @required this.color,
-    @required this.color2,
-    @required this.pokemon,
-    @required this.especie,
+    required this.color,
+    required this.color2,
+    required this.pokemon,
+    required this.especie,
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        DetailDescription(especie.flavorTextEntries[1].flavorText),
+        DetailDescription(especie!.flavorTextEntries![1].flavorText),
         _Stats(color: color, color2: color2, pokemon: pokemon),
         _Abilities(color: color, pokemon: pokemon),
         _Sprites(color: color, pokemon: pokemon),
@@ -322,9 +322,9 @@ class _StatsView extends StatelessWidget {
 }
 
 class _Sprites extends StatelessWidget {
-  final Color color;
-  final PokemonList pokemon;
-  const _Sprites({@required this.color, @required this.pokemon});
+  final Color? color;
+  final PokemonList? pokemon;
+  const _Sprites({required this.color, required this.pokemon});
 
   @override
   Widget build(BuildContext context) {
@@ -337,8 +337,8 @@ class _Sprites extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _Sprite(color, 'Normal', pokemon.data.sprites.frontDefault),
-              _Sprite(color, 'Shiny', pokemon.data.sprites.frontShiny),
+              _Sprite(color, 'Normal', pokemon!.data!.sprites!.frontDefault),
+              _Sprite(color, 'Shiny', pokemon!.data!.sprites!.frontShiny),
             ],
           ),
         ],
@@ -349,8 +349,8 @@ class _Sprites extends StatelessWidget {
 
 class _Sprite extends StatelessWidget {
   final String title;
-  final String url;
-  final Color color;
+  final String? url;
+  final Color? color;
   const _Sprite(this.color, this.title, this.url);
 
   @override
@@ -364,7 +364,7 @@ class _Sprite extends StatelessWidget {
         Container(
           width: 100,
           child: Image.network(
-            url,
+            url!,
             filterQuality: FilterQuality.high,
             fit: BoxFit.cover,
           ),
@@ -375,9 +375,9 @@ class _Sprite extends StatelessWidget {
 }
 
 class _DetailNavigationBar extends StatelessWidget {
-  final Color color;
+  final Color? color;
   const _DetailNavigationBar({
-    @required this.color,
+    required this.color,
   });
 
   @override
@@ -397,7 +397,7 @@ class _DetailNavigationBar extends StatelessWidget {
 }
 
 class _ButtonNavigationBar extends StatefulWidget {
-  final Color color;
+  final Color? color;
   final String title;
   final int activePage;
 
@@ -442,13 +442,13 @@ class __ButtonNavigationBarState extends State<_ButtonNavigationBar> {
 }
 
 class _Stats extends StatelessWidget {
-  final Color color;
-  final Color color2;
-  final PokemonList pokemon;
+  final Color? color;
+  final Color? color2;
+  final PokemonList? pokemon;
   const _Stats({
-    @required this.color,
-    @required this.color2,
-    @required this.pokemon,
+    required this.color,
+    required this.color2,
+    required this.pokemon,
   });
 
   @override
@@ -461,32 +461,32 @@ class _Stats extends StatelessWidget {
           // _Title('Stats', color),
           _StatElement(
               text: 'HP',
-              percent: pokemon.data.stats[0].baseStat,
+              percent: pokemon!.data!.stats![0].baseStat,
               color: color,
               color2: color2),
           _StatElement(
               text: 'ATK',
-              percent: pokemon.data.stats[1].baseStat,
+              percent: pokemon!.data!.stats![1].baseStat,
               color: color,
               color2: color2),
           _StatElement(
               text: 'DEF',
-              percent: pokemon.data.stats[2].baseStat,
+              percent: pokemon!.data!.stats![2].baseStat,
               color: color,
               color2: color2),
           _StatElement(
               text: 'SATK',
-              percent: pokemon.data.stats[3].baseStat,
+              percent: pokemon!.data!.stats![3].baseStat,
               color: color,
               color2: color2),
           _StatElement(
               text: 'SDEF',
-              percent: pokemon.data.stats[4].baseStat,
+              percent: pokemon!.data!.stats![4].baseStat,
               color: color,
               color2: color2),
           _StatElement(
               text: 'SPD',
-              percent: pokemon.data.stats[5].baseStat,
+              percent: pokemon!.data!.stats![5].baseStat,
               color: color,
               color2: color2),
         ],
@@ -497,14 +497,14 @@ class _Stats extends StatelessWidget {
 
 class _StatElement extends StatelessWidget {
   final String text;
-  final int percent;
-  final Color color;
-  final Color color2;
+  final int? percent;
+  final Color? color;
+  final Color? color2;
   const _StatElement({
-    @required this.text,
-    @required this.percent,
-    @required this.color,
-    @required this.color2,
+    required this.text,
+    required this.percent,
+    required this.color,
+    required this.color2,
   });
 
   @override
@@ -525,7 +525,7 @@ class _StatElement extends StatelessWidget {
                   fontWeight: FontWeight.bold),
             ),
           ),
-          Text((percent >= 100) ? percent.toString() : '0${percent.toString()}',
+          Text((percent! >= 100) ? percent.toString() : '0${percent.toString()}',
               style: TextStyle(fontSize: fontSize)),
           _Graph(color, color2, percent),
         ],
@@ -535,9 +535,9 @@ class _StatElement extends StatelessWidget {
 }
 
 class _Graph extends StatelessWidget {
-  final Color color;
-  final Color color2;
-  final int percent;
+  final Color? color;
+  final Color? color2;
+  final int? percent;
   const _Graph(
     this.color,
     this.color2,
@@ -560,11 +560,11 @@ class _Graph extends StatelessWidget {
           ),
         ),
         Container(
-          width: graphSize * (percent / 180),
+          width: graphSize * (percent! / 180),
           height: graphHeight,
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [color2, color],
+              colors: [color2!, color!],
             ),
             borderRadius: BorderRadius.all(Radius.circular(50)),
           ),
@@ -575,11 +575,11 @@ class _Graph extends StatelessWidget {
 }
 
 class _Abilities extends StatefulWidget {
-  final Color color;
-  final PokemonList pokemon;
+  final Color? color;
+  final PokemonList? pokemon;
   const _Abilities({
-    @required this.color,
-    @required this.pokemon,
+    required this.color,
+    required this.pokemon,
   });
 
   @override
@@ -595,7 +595,7 @@ class _AbilitiesState extends State<_Abilities> {
   }
 
   Future _loadAbility() async {
-    await Future.forEach(widget.pokemon.data.abilities, (ability) async {
+    await Future.forEach(widget.pokemon!.data!.abilities!, (dynamic ability) async {
       ability.ability.effect =
           await abilityProvider.getAbility(ability.ability.url);
     });
@@ -610,15 +610,15 @@ class _AbilitiesState extends State<_Abilities> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20),
       margin: EdgeInsets.symmetric(vertical: 20),
-      child: (widget.pokemon.data != null)
+      child: (widget.pokemon!.data != null)
           ? Column(
               children: [
                 _Title('Abilities', widget.color),
                 Column(
-                    children: widget.pokemon.data.abilities
+                    children: widget.pokemon!.data!.abilities!
                         .map((ability) => _Ability(
-                              name: ability.ability.name,
-                              description: ability.ability.effect,
+                              name: ability.ability!.name,
+                              description: ability.ability!.effect,
                               color: widget.color,
                             ))
                         .toList()),
@@ -631,14 +631,14 @@ class _AbilitiesState extends State<_Abilities> {
 
 class _Ability extends StatelessWidget {
   const _Ability({
-    @required this.name,
-    @required this.color,
-    @required this.description,
+    required this.name,
+    required this.color,
+    required this.description,
   });
 
-  final String name;
-  final Color color;
-  final String description;
+  final String? name;
+  final Color? color;
+  final String? description;
 
   @override
   Widget build(BuildContext context) {
@@ -648,9 +648,9 @@ class _Ability extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(name, style: TextStyle(color: color, fontSize: 20)),
+          Text(name!, style: TextStyle(color: color, fontSize: 20)),
           SizedBox(height: 5),
-          Text(description.replaceAll('\n', '').replaceAll('\f', ''),
+          Text(description!.replaceAll('\n', '').replaceAll('\f', ''),
               style: TextStyle(fontSize: 18)),
         ],
       ),
@@ -660,7 +660,7 @@ class _Ability extends StatelessWidget {
 
 class _Title extends StatelessWidget {
   final String text;
-  final Color color;
+  final Color? color;
   const _Title(this.text, this.color);
 
   @override

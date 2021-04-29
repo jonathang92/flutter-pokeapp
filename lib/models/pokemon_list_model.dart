@@ -16,9 +16,9 @@ class PokemonList {
     this.data,
   });
 
-  String name;
-  String url;
-  Pokemon data;
+  String? name;
+  String? url;
+  Pokemon? data;
 
   factory PokemonList.fromJson(Map<String, dynamic> json) =>
       PokemonList(name: json["name"], url: json["url"], data: null);

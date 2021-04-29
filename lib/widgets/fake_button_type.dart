@@ -3,15 +3,15 @@ import 'package:flutter_svg/svg.dart';
 import 'package:pokeapp/helpers/helpers.dart';
 
 class FakeButtonType extends StatelessWidget {
-  final String type;
+  final String? type;
   const FakeButtonType(
     this.type,
   );
   @override
   Widget build(BuildContext context) {
     final typeMap = getPokemonType(type);
-    final Color color = typeMap['color'];
-    final String assetUrl = typeMap['asset'];
+    final Color? color = typeMap['color'];
+    final String? assetUrl = typeMap['asset'];
     return Container(
       margin: EdgeInsets.only(top: 20, bottom: 20),
       width: 130,
@@ -26,7 +26,7 @@ class FakeButtonType extends StatelessWidget {
         children: [
           (assetUrl != '')
               ? SvgPicture.asset(
-                  assetUrl,
+                  assetUrl!,
                 )
               : Icon(
                   Icons.not_interested,
@@ -34,7 +34,7 @@ class FakeButtonType extends StatelessWidget {
                   // size: size,
                 ),
           Text(
-            type.toUpperCase(),
+            type!.toUpperCase(),
             style: TextStyle(color: Colors.white, fontSize: 20),
           )
         ],

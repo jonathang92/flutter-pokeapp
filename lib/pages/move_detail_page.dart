@@ -7,24 +7,24 @@ import 'package:pokeapp/helpers/helpers.dart';
 import 'package:pokeapp/widgets/fake_button_type.dart';
 
 class MoveDetailPage extends StatelessWidget {
-  final String heroTag;
-  final MoveList move;
+  final String? heroTag;
+  final MoveList? move;
 
   const MoveDetailPage({this.heroTag, this.move});
 
   @override
   Widget build(BuildContext context) {
-    final typeMap = getPokemonType(move.data.type.name);
-    final Color color = typeMap['color'];
-    final Color color2 = typeMap['color2'];
+    final typeMap = getPokemonType(move!.data!.type!.name);
+    final Color? color = typeMap['color'];
+    final Color? color2 = typeMap['color2'];
     return DetailView(
       heroTag: heroTag,
       urlImage: '',
       typeMap: typeMap,
       color: color,
       color2: color2,
-      name: move.name,
-      assetType: move.data.type.name,
+      name: move!.name,
+      assetType: move!.data!.type!.name,
       child: Container(
         width: double.infinity,
         child: FadeInRight(
@@ -33,11 +33,11 @@ class MoveDetailPage extends StatelessWidget {
             children: [
               SizedBox(height: 50),
               FadeInRight(
-                child: Text(move.name,
+                child: Text(move!.name!,
                     style: TextStyle(fontSize: 50, color: Color(0xff4F4F4F))),
               ),
-              FakeButtonType(move.data.type.name),
-              DetailDescription(move.data.effectEntries[0].effect),
+              FakeButtonType(move!.data!.type!.name),
+              DetailDescription(move!.data!.effectEntries![0].effect),
               _Details(color: color, move: move),
               SizedBox(height: 50)
             ],
@@ -49,8 +49,8 @@ class MoveDetailPage extends StatelessWidget {
 }
 
 class _Details extends StatelessWidget {
-  final Color color;
-  final MoveList move;
+  final Color? color;
+  final MoveList? move;
 
   const _Details({this.color, this.move});
   @override
@@ -63,14 +63,14 @@ class _Details extends StatelessWidget {
           _Detail(
               color: color,
               title: 'Base Power',
-              content: move.data.power.toString()),
+              content: move!.data!.power.toString()),
           Divider(),
           _Detail(
               color: color,
               title: 'Acurracy',
-              content: '${move.data.accuracy}%'),
+              content: '${move!.data!.accuracy}%'),
           Divider(),
-          _Detail(color: color, title: 'PP', content: move.data.pp.toString()),
+          _Detail(color: color, title: 'PP', content: move!.data!.pp.toString()),
         ],
       ),
     );
@@ -80,10 +80,10 @@ class _Details extends StatelessWidget {
 class _Detail extends StatelessWidget {
   final String title;
   final String content;
-  final Color color;
+  final Color? color;
 
   const _Detail(
-      {@required this.color, @required this.title, @required this.content});
+      {required this.color, required this.title, required this.content});
 
   @override
   Widget build(BuildContext context) {

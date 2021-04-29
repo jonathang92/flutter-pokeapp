@@ -15,7 +15,7 @@ class ItemListProvider {
 
     final decodedData = json.decode(resp.body);
     final itemList = itemListFromJsonList(decodedData["results"]);
-    await Future.forEach(itemList, (p) async {
+    await Future.forEach(itemList, (dynamic p) async {
       p.data = await getItem(p.url);
     });
     return itemList;

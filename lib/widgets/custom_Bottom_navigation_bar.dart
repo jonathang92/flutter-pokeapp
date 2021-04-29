@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:pokeapp/models/slider_home_model.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
-  const CustomBottomNavigationBar({Key key}) : super(key: key);
+  const CustomBottomNavigationBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +82,7 @@ class _Item extends StatelessWidget {
   final IconData icon;
   final bool active;
 
-  _Item({@required this.text, @required this.icon, this.active = false});
+  _Item({required this.text, required this.icon, this.active = false});
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +107,7 @@ class _Item extends StatelessWidget {
 
 class _Background2 extends StatelessWidget {
   const _Background2({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -122,7 +122,7 @@ class _Background2 extends StatelessWidget {
 
 class _Background1 extends StatelessWidget {
   const _Background1({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

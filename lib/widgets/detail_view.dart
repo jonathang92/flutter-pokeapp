@@ -5,22 +5,22 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DetailView extends StatelessWidget {
   final Map typeMap;
-  final Color color;
-  final Color color2;
+  final Color? color;
+  final Color? color2;
   final Widget child;
-  final String urlImage;
-  final String heroTag;
-  final String assetType;
-  final String name;
+  final String? urlImage;
+  final String? heroTag;
+  final String? assetType;
+  final String? name;
 
   const DetailView({
-    @required this.typeMap,
-    @required this.color,
-    @required this.color2,
-    @required this.child,
-    @required this.urlImage,
-    @required this.heroTag,
-    @required this.name,
+    required this.typeMap,
+    required this.color,
+    required this.color2,
+    required this.child,
+    required this.urlImage,
+    required this.heroTag,
+    required this.name,
     this.assetType,
   });
 
@@ -51,12 +51,12 @@ class DetailView extends StatelessWidget {
 
 class _MainContent extends StatefulWidget {
   final double cardSize;
-  final Color color;
-  final Color color2;
+  final Color? color;
+  final Color? color2;
   final Widget content;
 
   const _MainContent(this.cardSize, this.color, this.color2,
-      {@required this.content});
+      {required this.content});
 
   @override
   __MainContentState createState() => __MainContentState();
@@ -113,7 +113,7 @@ class __MainContentState extends State<_MainContent> {
 class _TitleHeader extends StatelessWidget {
   final Size screenSize;
   final double scrollPage;
-  final String name;
+  final String? name;
   const _TitleHeader(
     this.screenSize,
     this.scrollPage,
@@ -145,7 +145,7 @@ class _TitleHeader extends StatelessWidget {
               child: Opacity(
                 opacity: scrollPage * 0.01,
                 child: Text(
-                  name,
+                  name!,
                   style: TextStyle(color: Colors.white, fontSize: 50),
                 ),
               ),
@@ -163,8 +163,8 @@ class _Background extends StatelessWidget {
     this.color2,
   );
 
-  final Color color;
-  final Color color2;
+  final Color? color;
+  final Color? color2;
 
   @override
   Widget build(BuildContext context) {
@@ -174,8 +174,8 @@ class _Background extends StatelessWidget {
         begin: Alignment.bottomLeft,
         end: Alignment.bottomRight,
         colors: [
-          color,
-          color2,
+          color!,
+          color2!,
         ],
       )),
     );
@@ -193,9 +193,9 @@ class _FloatImage extends StatelessWidget {
 
   final double cardSize;
   final double scrollPage;
-  final String heroTag;
-  final String urlImage;
-  final String assetType;
+  final String? heroTag;
+  final String? urlImage;
+  final String? assetType;
 
   @override
   Widget build(BuildContext context) {
@@ -206,10 +206,10 @@ class _FloatImage extends StatelessWidget {
         child: Container(
           width: 200,
           child: Hero(
-            tag: heroTag,
+            tag: heroTag!,
             child: (urlImage != '')
                 ? Image.network(
-                    urlImage,
+                    urlImage!,
                     filterQuality: FilterQuality.high,
                     fit: BoxFit.cover,
                   )

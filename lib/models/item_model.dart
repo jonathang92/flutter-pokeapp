@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 ItemModel itemModelFromJsonMap(Map<dynamic, dynamic> jsonList) =>
-    ItemModel.fromJson(jsonList);
+    ItemModel.fromJson(jsonList as Map<String, dynamic>);
 
 // ItemModel itemModelFromJson(String str) => ItemModel.fromJson(json.decode(str));
 
@@ -18,13 +18,13 @@ class ItemModel {
     this.sprites,
   });
 
-  int cost;
-  List<EffectEntry> effectEntries;
+  int? cost;
+  List<EffectEntry>? effectEntries;
   dynamic flingEffect;
   dynamic flingPower;
-  int id;
-  String name;
-  Sprites sprites;
+  int? id;
+  String? name;
+  Sprites? sprites;
 
   factory ItemModel.fromJson(Map<String, dynamic> json) => ItemModel(
         cost: json["cost"],
@@ -40,12 +40,12 @@ class ItemModel {
   Map<String, dynamic> toJson() => {
         "cost": cost,
         "effect_entries":
-            List<dynamic>.from(effectEntries.map((x) => x.toJson())),
+            List<dynamic>.from(effectEntries!.map((x) => x.toJson())),
         "fling_effect": flingEffect,
         "fling_power": flingPower,
         "id": id,
         "name": name,
-        "sprites": sprites.toJson(),
+        "sprites": sprites!.toJson(),
       };
 }
 
@@ -56,9 +56,9 @@ class EffectEntry {
     this.shortEffect,
   });
 
-  String effect;
-  Language language;
-  String shortEffect;
+  String? effect;
+  Language? language;
+  String? shortEffect;
 
   factory EffectEntry.fromJson(Map<String, dynamic> json) => EffectEntry(
         effect: json["effect"],
@@ -68,7 +68,7 @@ class EffectEntry {
 
   Map<String, dynamic> toJson() => {
         "effect": effect,
-        "language": language.toJson(),
+        "language": language!.toJson(),
         "short_effect": shortEffect,
       };
 }
@@ -79,8 +79,8 @@ class Language {
     this.url,
   });
 
-  String name;
-  String url;
+  String? name;
+  String? url;
 
   factory Language.fromJson(Map<String, dynamic> json) => Language(
         name: json["name"],
@@ -98,7 +98,7 @@ class Sprites {
     this.spritesDefault,
   });
 
-  String spritesDefault;
+  String? spritesDefault;
 
   factory Sprites.fromJson(Map<String, dynamic> json) => Sprites(
         spritesDefault: json["default"],

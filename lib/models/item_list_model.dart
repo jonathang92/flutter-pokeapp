@@ -20,9 +20,9 @@ class ItemList {
     this.data,
   });
 
-  String name;
-  String url;
-  ItemModel data;
+  String? name;
+  String? url;
+  ItemModel? data;
 
   factory ItemList.fromJson(Map<String, dynamic> json) => ItemList(
         name: json["name"],

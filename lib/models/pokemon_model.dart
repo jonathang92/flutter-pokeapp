@@ -4,7 +4,7 @@ import 'package:pokeapp/models/move_list_model.dart';
 import 'package:pokeapp/models/move_model.dart';
 
 Pokemon pokemonFromJsonMap(Map<dynamic, dynamic> jsonList) =>
-    Pokemon.fromJson(jsonList);
+    Pokemon.fromJson(jsonList as Map<String, dynamic>);
 // Pokemon pokemonFromJson(String str) => Pokemon.fromJson(json.decode(str));
 
 String pokemonToJson(Pokemon data) => json.encode(data.toJson());
@@ -20,13 +20,13 @@ class Pokemon {
     this.types,
   });
 
-  List<AbilityElement> abilities;
-  int id;
-  List<MoveList> moves;
-  String name;
-  Sprites sprites;
-  List<StatElement> stats;
-  List<Type> types;
+  List<AbilityElement>? abilities;
+  int? id;
+  List<MoveList>? moves;
+  String? name;
+  Sprites? sprites;
+  List<StatElement>? stats;
+  List<Type>? types;
 
   factory Pokemon.fromJson(Map<String, dynamic> json) => Pokemon(
         abilities: List<AbilityElement>.from(
@@ -42,13 +42,13 @@ class Pokemon {
       );
 
   Map<String, dynamic> toJson() => {
-        "abilities": List<dynamic>.from(abilities.map((x) => x.toJson())),
+        "abilities": List<dynamic>.from(abilities!.map((x) => x.toJson())),
         "id": id,
-        "moves": List<dynamic>.from(moves.map((x) => x.toJson())),
+        "moves": List<dynamic>.from(moves!.map((x) => x.toJson())),
         "name": name,
-        "sprites": sprites.toJson(),
-        "stats": List<dynamic>.from(stats.map((x) => x.toJson())),
-        "types": List<dynamic>.from(types.map((x) => x.toJson())),
+        "sprites": sprites!.toJson(),
+        "stats": List<dynamic>.from(stats!.map((x) => x.toJson())),
+        "types": List<dynamic>.from(types!.map((x) => x.toJson())),
       };
 }
 
@@ -57,14 +57,14 @@ class AbilityElement {
     this.ability,
   });
 
-  AbilityClass ability;
+  AbilityClass? ability;
 
   factory AbilityElement.fromJson(Map<String, dynamic> json) => AbilityElement(
         ability: AbilityClass.fromJson(json["ability"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "ability": ability.toJson(),
+        "ability": ability!.toJson(),
       };
 }
 
@@ -75,9 +75,9 @@ class AbilityClass {
     this.effect,
   });
 
-  String name;
-  String url;
-  String effect;
+  String? name;
+  String? url;
+  String? effect;
 
   factory AbilityClass.fromJson(Map<String, dynamic> json) => AbilityClass(
         name: json["name"],
@@ -94,9 +94,9 @@ class AbilityClass {
 class MoveClass {
   MoveClass({this.name, this.url, this.data});
 
-  String name;
-  String url;
-  MoveModel data;
+  String? name;
+  String? url;
+  MoveModel? data;
 
   factory MoveClass.fromJson(Map<String, dynamic> json) => MoveClass(
         name: json["name"],
@@ -115,14 +115,14 @@ class Move {
     this.move,
   });
 
-  MoveClass move;
+  MoveClass? move;
 
   factory Move.fromJson(Map<String, dynamic> json) => Move(
         move: MoveClass.fromJson(json["move"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "move": move.toJson(),
+        "move": move!.toJson(),
       };
 }
 
@@ -133,9 +133,9 @@ class Sprites {
     this.other,
   });
 
-  String frontDefault;
-  String frontShiny;
-  Other other;
+  String? frontDefault;
+  String? frontShiny;
+  Other? other;
 
   factory Sprites.fromJson(Map<String, dynamic> json) => Sprites(
         frontDefault: json["front_default"],
@@ -146,7 +146,7 @@ class Sprites {
   Map<String, dynamic> toJson() => {
         "front_default": frontDefault,
         "front_shiny": frontShiny,
-        "other": other.toJson(),
+        "other": other!.toJson(),
       };
 }
 
@@ -155,14 +155,14 @@ class Other {
     this.officialArtwork,
   });
 
-  OfficialArtwork officialArtwork;
+  OfficialArtwork? officialArtwork;
 
   factory Other.fromJson(Map<String, dynamic> json) => Other(
         officialArtwork: OfficialArtwork.fromJson(json["official-artwork"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "official-artwork": officialArtwork.toJson(),
+        "official-artwork": officialArtwork!.toJson(),
       };
 }
 
@@ -171,7 +171,7 @@ class OfficialArtwork {
     this.frontDefault,
   });
 
-  String frontDefault;
+  String? frontDefault;
 
   factory OfficialArtwork.fromJson(Map<String, dynamic> json) =>
       OfficialArtwork(
@@ -189,8 +189,8 @@ class StatElement {
     this.stat,
   });
 
-  int baseStat;
-  StatStat stat;
+  int? baseStat;
+  StatStat? stat;
 
   factory StatElement.fromJson(Map<String, dynamic> json) => StatElement(
         baseStat: json["base_stat"],
@@ -199,7 +199,7 @@ class StatElement {
 
   Map<String, dynamic> toJson() => {
         "base_stat": baseStat,
-        "stat": stat.toJson(),
+        "stat": stat!.toJson(),
       };
 }
 
@@ -208,7 +208,7 @@ class StatStat {
     this.name,
   });
 
-  String name;
+  String? name;
 
   factory StatStat.fromJson(Map<String, dynamic> json) => StatStat(
         name: json["name"],
@@ -224,13 +224,13 @@ class Type {
     this.type,
   });
 
-  MoveClass type;
+  MoveClass? type;
 
   factory Type.fromJson(Map<String, dynamic> json) => Type(
         type: MoveClass.fromJson(json["type"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "type": type.toJson(),
+        "type": type!.toJson(),
       };
 }

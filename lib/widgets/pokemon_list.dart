@@ -91,7 +91,7 @@ class _PokemonListViewState extends State<PokemonListView> {
           )
         : Center(
             child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.green[200]),
+              valueColor: AlwaysStoppedAnimation<Color?>(Colors.green[200]),
             ),
           );
   }
@@ -119,7 +119,7 @@ class _CustomListTile extends StatelessWidget {
               child: Hero(
                 tag: '$index-${pokemon.name}',
                 child: Image.network(
-                  pokemon.data.sprites.other.officialArtwork.frontDefault,
+                  pokemon.data!.sprites!.other!.officialArtwork!.frontDefault!,
                   filterQuality: FilterQuality.high,
                   errorBuilder: (context, error, stackTrace) {
                     return Center(
@@ -129,15 +129,15 @@ class _CustomListTile extends StatelessWidget {
                     )); //do something
                   },
                   loadingBuilder: (BuildContext context, Widget child,
-                      ImageChunkEvent loadingProgress) {
+                      ImageChunkEvent? loadingProgress) {
                     if (loadingProgress == null) return child;
                     return Center(
                       child: CircularProgressIndicator(
                         valueColor:
-                            AlwaysStoppedAnimation<Color>(Colors.grey[300]),
+                            AlwaysStoppedAnimation<Color?>(Colors.grey[300]),
                         value: loadingProgress.expectedTotalBytes != null
                             ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes
+                                loadingProgress.expectedTotalBytes!
                             : null,
                       ),
                     );
@@ -155,12 +155,12 @@ class _CustomListTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    pokemon.name,
+                    pokemon.name!,
                     textAlign: TextAlign.left,
                     style: TextStyle(fontSize: 20),
                   ),
                   Text(
-                    '#${pokemon.data.id.toString().padLeft(3, '0')}',
+                    '#${pokemon.data!.id.toString().padLeft(3, '0')}',
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 13,
@@ -172,10 +172,10 @@ class _CustomListTile extends StatelessWidget {
             ),
           ),
           Row(
-            children: pokemon.data.types
+            children: pokemon.data!.types!
                 .map((e) => Padding(
                     padding: EdgeInsets.only(left: 10),
-                    child: TypePokemon(type: e.type.name)))
+                    child: TypePokemon(type: e.type!.name)))
                 .toList(),
           )
         ],

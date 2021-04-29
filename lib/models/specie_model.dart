@@ -12,8 +12,8 @@ class Specie {
     this.flavorTextEntries,
   });
 
-  EvolutionChain evolutionChain;
-  List<FlavorTextEntry> flavorTextEntries;
+  EvolutionChain? evolutionChain;
+  List<FlavorTextEntry>? flavorTextEntries;
 
   factory Specie.fromJson(Map<String, dynamic> json) => Specie(
         evolutionChain: EvolutionChain.fromJson(json["evolution_chain"]),
@@ -23,9 +23,9 @@ class Specie {
       );
 
   Map<String, dynamic> toJson() => {
-        "evolution_chain": evolutionChain.toJson(),
+        "evolution_chain": evolutionChain!.toJson(),
         "flavor_text_entries":
-            List<dynamic>.from(flavorTextEntries.map((x) => x.toJson())),
+            List<dynamic>.from(flavorTextEntries!.map((x) => x.toJson())),
       };
 }
 
@@ -35,8 +35,8 @@ class EvolutionChain {
     this.data,
   });
 
-  String url;
-  Evolutions data;
+  String? url;
+  Evolutions? data;
 
   factory EvolutionChain.fromJson(Map<String, dynamic> json) => EvolutionChain(
         url: json["url"],
@@ -53,7 +53,7 @@ class FlavorTextEntry {
     this.flavorText,
   });
 
-  String flavorText;
+  String? flavorText;
 
   factory FlavorTextEntry.fromJson(Map<String, dynamic> json) =>
       FlavorTextEntry(

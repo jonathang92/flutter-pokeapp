@@ -78,7 +78,7 @@ class _CustomHeader extends StatelessWidget {
         Container(
           height: 60,
           child: Image.network(
-            pokemon.data.sprites.other.officialArtwork.frontDefault,
+            pokemon.data!.sprites!.other!.officialArtwork!.frontDefault!,
             filterQuality: FilterQuality.high,
             errorBuilder: (context, error, stackTrace) {
               return Center(
@@ -88,14 +88,14 @@ class _CustomHeader extends StatelessWidget {
               )); //do something
             },
             loadingBuilder: (BuildContext context, Widget child,
-                ImageChunkEvent loadingProgress) {
+                ImageChunkEvent? loadingProgress) {
               if (loadingProgress == null) return child;
               return Center(
                 child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.grey[300]),
+                  valueColor: AlwaysStoppedAnimation<Color?>(Colors.grey[300]),
                   value: loadingProgress.expectedTotalBytes != null
                       ? loadingProgress.cumulativeBytesLoaded /
-                          loadingProgress.expectedTotalBytes
+                          loadingProgress.expectedTotalBytes!
                       : null,
                 ),
               );
@@ -109,12 +109,12 @@ class _CustomHeader extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                pokemon.name,
+                pokemon.name!,
                 textAlign: TextAlign.left,
                 style: TextStyle(fontSize: 20),
               ),
               Text(
-                '#${pokemon.data.id.toString().padLeft(3, '0')}',
+                '#${pokemon.data!.id.toString().padLeft(3, '0')}',
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontSize: 18,
@@ -125,10 +125,10 @@ class _CustomHeader extends StatelessWidget {
           ),
         ),
         Row(
-          children: pokemon.data.types
+          children: pokemon.data!.types!
               .map((e) => Padding(
                   padding: EdgeInsets.only(left: 10),
-                  child: TypePokemon(type: e.type.name)))
+                  child: TypePokemon(type: e.type!.name)))
               .toList(),
         )
       ],

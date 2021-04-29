@@ -6,7 +6,6 @@ import 'package:pokeapp/helpers/helpers.dart';
 import 'package:pokeapp/models/item_list_model.dart';
 import 'package:pokeapp/pages/item_detail_page.dart';
 import 'package:pokeapp/providers/item_list_provider.dart';
-import 'home_list_view.dart';
 
 class ItemListView extends StatefulWidget {
   final List<dynamic> itemList = [];
@@ -78,7 +77,7 @@ class _ItemListViewState extends State<ItemListView> {
           )
         : Center(
             child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.green[200]),
+              valueColor: AlwaysStoppedAnimation<Color?>(Colors.green[200]),
             ),
           );
   }
@@ -94,7 +93,7 @@ class _CustomListTile extends StatelessWidget {
       onTap: () => Navigator.push(
           context,
           myOwnRoute(ItemDetailPage(
-            urlImage: item.data.sprites.spritesDefault,
+            urlImage: item.data!.sprites!.spritesDefault,
             heroTag: '$index-${item.name}',
             item: item,
           ))),
@@ -108,7 +107,7 @@ class _CustomListTile extends StatelessWidget {
               child: Hero(
                 tag: '$index-${item.name}',
                 child: Image.network(
-                  item.data.sprites.spritesDefault,
+                  item.data!.sprites!.spritesDefault!,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
                     return Center(
@@ -118,15 +117,15 @@ class _CustomListTile extends StatelessWidget {
                     )); //do something
                   },
                   loadingBuilder: (BuildContext context, Widget child,
-                      ImageChunkEvent loadingProgress) {
+                      ImageChunkEvent? loadingProgress) {
                     if (loadingProgress == null) return child;
                     return Center(
                       child: CircularProgressIndicator(
                         valueColor:
-                            AlwaysStoppedAnimation<Color>(Colors.grey[300]),
+                            AlwaysStoppedAnimation<Color?>(Colors.grey[300]),
                         value: loadingProgress.expectedTotalBytes != null
                             ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes
+                                loadingProgress.expectedTotalBytes!
                             : null,
                       ),
                     );
@@ -137,13 +136,13 @@ class _CustomListTile extends StatelessWidget {
             SizedBox(width: 15),
             Expanded(
               child: Text(
-                item.name,
+                item.name!,
                 textAlign: TextAlign.left,
                 style: TextStyle(fontSize: 20),
               ),
             ),
             Text(
-              item.data.cost.toString(),
+              item.data!.cost.toString(),
               textAlign: TextAlign.left,
               style: TextStyle(
                 fontSize: 18,

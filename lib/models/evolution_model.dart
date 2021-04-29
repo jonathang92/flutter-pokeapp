@@ -5,7 +5,7 @@
 import 'dart:convert';
 
 Evolutions evolutionsFromJsonMap(Map<dynamic, dynamic> jsonList) =>
-    Evolutions.fromJson(jsonList);
+    Evolutions.fromJson(jsonList as Map<String, dynamic>);
 
 // Evolutions evolutionsFromJson(String str) =>
 //     Evolutions.fromJson(json.decode(str));
@@ -19,9 +19,9 @@ class Evolutions {
     this.species,
   });
 
-  List<EvolutionDetail> evolutionDetails;
-  List<Evolutions> evolvesTo;
-  EvolutionsSpecies species;
+  List<EvolutionDetail>? evolutionDetails;
+  List<Evolutions>? evolvesTo;
+  EvolutionsSpecies? species;
 
   factory Evolutions.fromJson(Map<String, dynamic> json) => Evolutions(
         evolutionDetails: List<EvolutionDetail>.from(
@@ -35,9 +35,9 @@ class Evolutions {
 
   Map<String, dynamic> toJson() => {
         "evolution_details":
-            List<EvolutionDetail>.from(evolutionDetails.map((x) => x)),
-        "evolves_to": List<dynamic>.from(evolvesTo.map((x) => x.toJson())),
-        "species": species.toJson(),
+            List<EvolutionDetail>.from(evolutionDetails!.map((x) => x)),
+        "evolves_to": List<dynamic>.from(evolvesTo!.map((x) => x.toJson())),
+        "species": species!.toJson(),
       };
 }
 
@@ -46,7 +46,7 @@ class EvolutionDetail {
     this.minLevel,
   });
 
-  int minLevel;
+  int? minLevel;
 
   factory EvolutionDetail.fromJson(Map<String, dynamic> json) =>
       EvolutionDetail(
@@ -65,9 +65,9 @@ class EvolutionsSpecies {
     this.image,
   });
 
-  String name;
-  String url;
-  String image;
+  String? name;
+  String? url;
+  String? image;
 
   factory EvolutionsSpecies.fromJson(Map<String, dynamic> json) =>
       EvolutionsSpecies(

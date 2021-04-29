@@ -3,23 +3,23 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pokeapp/helpers/helpers.dart';
 
 class TypePokemon extends StatelessWidget {
-  final String type;
-  final Function action;
-  final double width;
+  final String? type;
+  final Function? action;
+  final double? width;
   final double padding;
   TypePokemon(
-      {@required this.type, this.action, this.width, this.padding = 10});
+      {required this.type, this.action, this.width, this.padding = 10});
 
   @override
   Widget build(BuildContext context) {
     final typeMap = getPokemonType(this.type);
-    final Color color = typeMap['color'];
+    final Color? color = typeMap['color'];
     final Color color2 = typeMap['color2'];
-    final String assetName = typeMap['asset'];
+    final String? assetName = typeMap['asset'];
     return Container(
       child: (assetName != '')
           ? SvgPicture.asset(
-              assetName,
+              assetName!,
               width: width,
             )
           : Icon(
@@ -36,7 +36,7 @@ class TypePokemon extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [color, color2],
+          colors: [color!, color2],
         ),
         boxShadow: [
           BoxShadow(
